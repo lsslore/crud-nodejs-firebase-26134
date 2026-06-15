@@ -1,41 +1,37 @@
 // Importar el módulo Express
 import express from "express";
 
+// Importar el router de productos
+import productsRouter from "./src/routes/products.router.js";
+
+// Importar el router de usuarios
+import usersRouter from "./src/routes/users.router.js";
+
+
 // Crear una instancia de la aplicación Express
 const app = express();
+const PORT = 3000;
 
-// Datos de ejemplo para los productos
-const products = [
-  { id: 1, name: "Producto 1", price: 10 },
-  { id: 2, name: "Producto 2", price: 20 },
-  { id: 3, name: "Producto 3", price: 30 },
-];
-
-// Middleware para registrar las solicitudes entrantes
-app.use((req, res, next) => {
-  console.log(req.method, req.url);
-  next()
-});
+app.use(express.json()); 
 
 // Ruta para la raíz del sitio
 app.get("/", (req, res) => {
-  res.send("Hola Mundo");
+   res.send(`
+     <h1>API de Productos</h1>
+     <p>Servidor funcionando correctamente</p>
+   `);
 });
 
-// Ruta para obtener todos los productos
-app.get("/products", (req, res) => {
-  res.send(products);
+app.use('/api/products', productsRouter);
+app.use(usersRouter);
+
+app.get("/up", (req, res) => {
+  res.json({
+    status: "ok",
+    message: "Servidor activo",
+  });
 });
 
-// Ruta para obtener un producto por su ID
-app.get("/products/:id", (req, res) => { 
-  res.send(`Producto ${req.params.id}`);  
+app.listen(PORT, () => {
+  console.log(`http://localhost:${PORT}`);
 });
-
-// Middleware para manejar rutas no encontradas
-app.use((req, res, next) => {
-  res.send("Not Found");
-});
-
-// Iniciar el servidor en el puerto 3000
-app.listen(3000, () => console.log("http://localhost:3000"));
