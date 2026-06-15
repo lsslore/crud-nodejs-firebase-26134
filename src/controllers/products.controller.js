@@ -24,11 +24,17 @@ export const getProductById = (req, res) => {
 };
 
 export const createProduct = (req, res) => {
-  const { name, price } = req.body;
+  const { name, price, categoryID } = req.body;
 
-  if (!name || !price) {
-    return res.status(400).json({
+  if (!name || !price || !categoryID) {
+    return res.status(422).json({
       message: "Faltan datos obligatorios",
+    });
+  }
+
+  if (categoryID != 1) {
+    return res.status(404).json({
+      message: "Categoría no válida",
     });
   }
 
@@ -36,6 +42,7 @@ export const createProduct = (req, res) => {
     id: products.length + 1,
     name,
     price,
+    category: 1, // Solo es un ejemplo, todas las categorías son 1
   };
 
   products.push(newProduct);
