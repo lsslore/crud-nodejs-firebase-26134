@@ -4,8 +4,11 @@ const products = [
   { id: 3, name: "Monitor", price: 150000 },
 ];
 
-export const getProducts = (req, res) => {
-  res.json(products);
+import { fetchProducts } from "../models/Product.js";
+
+export const getProducts = async (req, res) => {
+  const products = await fetchProducts();
+  res.json(products); 
 };
 
 export const getProductById = (req, res) => {
