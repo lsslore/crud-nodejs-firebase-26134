@@ -4,18 +4,23 @@ const products = [
   { id: 3, name: "Monitor", price: 150000 },
 ];
 
-import { fetchProducts } from "../models/Product.js";
+import {
+  getProducts as getProductsModel,
+  getProductById as getProductByIdModel,
+  createProduct as createProductModel,
+  updateProduct as updateProductModel,
+  deleteProduct as deleteProductModel,
+} from "../models/Product.js";
 
 export const getProducts = async (req, res) => {
-  const products = await fetchProducts();
-  res.json(products); 
+  const products = await getProductsModel();
+  res.json(products);
 };
 
-export const getProductById = (req, res) => {
-  const id = Number(req.params.id);
-  // const { id } = req.params;
+export const getProductById = async (req, res) => {
+  const { id } = req.params;
 
-  const product = products.find((product) => product.id === id);
+  const product = await getProductByIdModel(id);
 
   if (!product) {
     return res.status(404).json({
@@ -26,48 +31,58 @@ export const getProductById = (req, res) => {
   res.json(product);
 };
 
-export const createProduct = (req, res) => {
-  const { name, price, categoryID } = req.body;
+export const createProduct = async (req, res) => {
+  const { name, price, stock } = req.body;
 
-  if (!name || !price || !categoryID) {
+  if (!name || !price || !stock) {
     return res.status(422).json({
       message: "Faltan datos obligatorios",
     });
   }
 
-  if (categoryID != 1) {
-    return res.status(404).json({
-      message: "Categoría no válida",
-    });
-  }
-
-  const newProduct = {
-    id: products.length + 1,
+  const newProduct = await createProductModel({
     name,
     price,
-    category: 1, // Solo es un ejemplo, todas las categorías son 1
-  };
-
-  products.push(newProduct);
+    stock,
+  });
 
   res.status(201).json(newProduct);
 };
 
-export const deleteProduct = (req, res) => {
-  const id = Number(req.params.id);
+export const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name, price, stock } = req.body;
 
-  const productIndex = products.findIndex((product) => product.id === id);
-
-  if (productIndex === -1) {
-    return res.status(404).json({
-      message: "Producto no encontrado",
+  if (!name || !price || !stock) {
+    return res.status(422).json({
+      message: "Faltan datos obligatorios",
     });
   }
 
-  const deletedProduct = products.splice(productIndex, 1);
+  const updatedProduct = await updateProductModel(id, {
+    name,
+    price,
+    stock,
+  });
+
+  if (!updatedProduct) {
+    return res.status(404).json({ message: "Producto no encontrado" });
+  }
+
+  res.json(updatedProduct);
+};
+
+export const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+
+  const deletedProduct = await deleteProductModel(id);
+
+  if (!deletedProduct) {
+    return res.status(404).json({ message: "Producto no encontrado" });
+  }
 
   res.json({
     message: "Producto eliminado",
-    product: deletedProduct[0],
+    product: deletedProduct,
   });
 };
