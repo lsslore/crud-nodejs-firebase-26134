@@ -1,22 +1,29 @@
+// Datos de ejemplo (serán reemplazados por la base de datos)
+/*
 const products = [
   { id: 1, name: "Mouse", price: 12000 },
   { id: 2, name: "Teclado", price: 25000 },
   { id: 3, name: "Monitor", price: 150000 },
 ];
+*/
 
+// Función para obtener todos los productos
 import {
+  createProduct as createProductModel,
   getProducts as getProductsModel,
   getProductById as getProductByIdModel,
-  createProduct as createProductModel,
   updateProduct as updateProductModel,
   deleteProduct as deleteProductModel,
 } from "../models/Product.js";
 
+// Controlador GET: obtiene todos los productos y los devuelve en formato JSON
 export const getProducts = async (req, res) => {
   const products = await getProductsModel();
   res.json(products);
 };
 
+
+// Controlador GET: obtiene un producto por su id y lo devuelve en formato JSON
 export const getProductById = async (req, res) => {
   const { id } = req.params;
 
@@ -31,6 +38,7 @@ export const getProductById = async (req, res) => {
   res.json(product);
 };
 
+// Función para crear un nuevo producto
 export const createProduct = async (req, res) => {
   const { name, price, stock } = req.body;
 
@@ -49,6 +57,7 @@ export const createProduct = async (req, res) => {
   res.status(201).json(newProduct);
 };
 
+// Función para actualizar un producto existente
 export const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { name, price, stock } = req.body;
@@ -72,6 +81,7 @@ export const updateProduct = async (req, res) => {
   res.json(updatedProduct);
 };
 
+// Función para eliminar un producto existente
 export const deleteProduct = async (req, res) => {
   const { id } = req.params;
 

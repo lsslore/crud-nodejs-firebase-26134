@@ -1,5 +1,7 @@
+//Importamos la configuración de Firebase
 import db from "../config/firebase.js";
 
+// Importamos las funciones necesarias de Firebase Firestore
 import {
   addDoc,
   collection,
@@ -10,10 +12,12 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
+// Creamos una referencia a la colección "products" en Firestore
 const productsCollection = collection(db, "products");
 
 // CRUD - Create, Read, Update, Delete
 
+// Función para crear un nuevo producto en la colección "products"
 export const createProduct = async (product) => {
   const productRef = await addDoc(productsCollection, product);
 
@@ -23,6 +27,7 @@ export const createProduct = async (product) => {
   };
 };
 
+// Crea un nuevo producto en Firestore y devuelve su id junto con los datos
 export const getProducts = async () => {
   const snapshot = await getDocs(productsCollection);
 
@@ -39,6 +44,7 @@ export const getProducts = async () => {
   return products;
 };
 
+// Obtiene un producto por su id desde Firestore
 export const getProductById = async (id) => {
   const productRef = doc(productsCollection, id);
   const snapshot = await getDoc(productRef);
@@ -53,6 +59,7 @@ export const getProductById = async (id) => {
   };
 };
 
+// Actualiza un producto existente en Firestore por su id
 export const updateProduct = async (id, product) => {
   const productRef = doc(productsCollection, id);
   const snapshot = await getDoc(productRef);
@@ -70,6 +77,7 @@ export const updateProduct = async (id, product) => {
   };
 };
 
+// Elimina un producto de Firestore por su id y devuelve el objeto borrado
 export const deleteProduct = async (id) => {
   const productRef = doc(productsCollection, id);
   const snapshot = await getDoc(productRef);

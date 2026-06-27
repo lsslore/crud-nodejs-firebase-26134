@@ -1,13 +1,15 @@
+// Importa dotenv y carga las variables de entorno desde el archivo .env
 import dotenv from "dotenv";
 dotenv.config();  
 
-// Import the functions you need from the SDKs you need
+// Importa la función para inicializar la app de Firebase
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
+
+// Importa la función para trabajar con Firestore (base de datos)
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
+// Configuración de Firebase usando variables de entorno
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
   authDomain: process.env.AUTH_DOMAIN,
@@ -17,9 +19,11 @@ const firebaseConfig = {
   appId: process.env.APP_ID 
 }; 
 
-// Initialize Firebase 
+// Inicializa la aplicación de Firebase con la configuración
 const app = initializeApp(firebaseConfig);
 
+// Obtiene la instancia de Firestore para interactuar con la base de datos
 const db = getFirestore(app);
 
+// Exporta la instancia de Firestore para usarla en el proyecto
 export default db;

@@ -1,15 +1,18 @@
+// Controlador POST: crea una nueva categoría usando el título recibido en el body
 export const createCategory = (req, res) => {
   const { title } = req.body;
 
   res.status(201).json({ message: `Categoria creada ${title}` });
 };
 
+// Controlador GET: devuelve un mensaje con el listado de categorías
 export const getCategories = (req, res) => {
   res.json({
     message: "Listado de categorías",
   });
 };
 
+// Controlador GET: devuelve un mensaje con la categoría solicitada por id
 export const getCategoryById = (req, res) => {
   const { id } = req.params;
 
@@ -18,6 +21,7 @@ export const getCategoryById = (req, res) => {
   });
 };
 
+// Controlador PUT: actualiza una categoría por id, valida existencia y título
 export const updateCategory = (req, res) => {
   const { id } = req.params;
 
@@ -35,6 +39,7 @@ export const updateCategory = (req, res) => {
   res.json({ message: `Se actualizo el ${title} del ID ${id}` });
 };
 
+// Controlador DELETE: elimina una categoría por id y devuelve mensaje de borrado
 // createdAt, udpatedAt, deletedAt = null -> fecha de eliminación lógica
 export const deleteCategory = (req, res) => {
   const { id } = req.params;
