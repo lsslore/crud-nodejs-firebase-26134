@@ -1,4 +1,4 @@
-# Proyecto Final - API REST con Node.js y Firebase (CRUD) - Talento Tech 
+# Proyecto Final BACK-END JS - API REST con Node.js y Firebase (CRUD) - Talento Tech 
 
 ## Descripción
 
